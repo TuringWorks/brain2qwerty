@@ -8,8 +8,7 @@
 // ---------------------------------------------------------------------------
 // hero-video.js -- lightweight, video-driven hero (no WebGL / no Three.js).
 //
-// Plays the two clips baked by tools/capture-hero.mjs in place of the live
-// 5-pass line-art + Gaussian-splat pipeline (src/hero-v2.js):
+// Plays two pre-rendered clips:
 //   zoom.mp4      scroll-scrubbed camera journey (scrubP 0 wide MEG -> 1 close
 //                 brain). currentTime is driven directly by scroll progress.
 //   activity.mp4  the cortical activation, looping on its own clock, cross-faded
@@ -17,7 +16,7 @@
 //                 so the handoff is seamless).
 //
 // The scroll choreography (heroScrollProgress / brainStartScrub) and overlay
-// fades are mirrored 1:1 from hero-v2.js so the two demos feel identical -- but
+// fades are tuned for a smooth feel, and
 // the hero now loads instantly and costs ~nothing to run.
 // ---------------------------------------------------------------------------
 
@@ -35,7 +34,7 @@ const smoothstep = (x, edge0, edge1) => {
   return t * t * (3 - 2 * t);
 };
 
-// --- Page order (mirrors hero-v2.js) ---------------------------------------
+// --- Page order -----------------------------------------------------------
 const START_MODE = new URLSearchParams(location.search).get('start')
   || (document.body && document.body.dataset.heroStart) || 'meg';
 const startOnBrain = START_MODE === 'brain';
@@ -116,10 +115,10 @@ const zoomVideo = makeVideo(BASE + 'zoom.mp4', {
 });
 zoomVideo.style.zIndex = '0';
 zoomVideo.id = 'hero-zoom';        // wide MEG scene (scroll-scrubbed)
-// ROCK variant: the activity clip is baked WITH the brain rocking in 3D (about
-// the vertical axis) by tools/capture-hero-rock.mjs, so the rotation is real
-// pixels, not a CSS sway. The motor-cortex callout is driven per-frame from
-// manifest_rock.json (the vertex moves with the brain).
+// The activity clip is pre-rendered WITH the brain rocking in 3D (about the
+// vertical axis), so the rotation is real pixels, not a CSS sway. The
+// motor-cortex callout is driven per-frame from manifest_rock.json (the vertex
+// moves with the brain).
 const activityVideo = makeVideo(BASE + 'activity_rock.mp4', { loop: true, poster: BASE + 'poster_close.jpg' });
 activityVideo.style.zIndex = '0';
 activityVideo.id = 'hero-activity';   // close-up brain (looping)
@@ -316,7 +315,7 @@ function applyPhoneZoomFraming(frac) {
   zoomVideo.style.setProperty('transform-origin', '50% 50%', 'important');
 }
 
-// Apply scroll progress to the videos + overlays (mirrors hero-v2 fades).
+// Apply scroll progress to the videos + overlays.
 function apply(p) {
   const scrubP = startOnBrain ? brainStartScrub(p) : p;
   seekZoom(scrubP);
@@ -362,8 +361,8 @@ function apply(p) {
   if (heroKbdEl) heroKbdEl.style.opacity = String(ov);
   updateCortexAnnot(ov);
 
-  // Wide-view callouts: appear as the camera reaches the wide MEG (mirrors
-  // hero-v2 sceneReveal). Brain-first reveals near the end of the scroll.
+  // Wide-view callouts: appear as the camera reaches the wide MEG.
+  // Brain-first reveals near the end of the scroll.
   const sceneReveal = startOnBrain
     ? smoothstep(p, 0.82, 0.93)
     : 1 - smoothstep(p, 0.05, 0.18);
@@ -518,7 +517,7 @@ window.addEventListener('keydown', (e) => {
   if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(e.key)) cancelScrollAnim();
 });
 
-// --- "Next" button: advance one beat per click (mirrors hero-v2.js) --------
+// --- "Next" button: advance one beat per click --------
 function goNext() {
   const range = (heroEl ? heroEl.offsetHeight : window.innerHeight * 2) - window.innerHeight;
   const p = heroScrollProgress();
@@ -539,7 +538,7 @@ if (scrollHintEl) {
 boot();
 
 // --- Section dot scroller (scrollspy) --------------------------------------
-// Ported verbatim from hero-v2.js: lights the dot for the current section.
+// Lights the dot for the current section.
 (function initDotNav() {
   const nav = document.querySelector('.dot-nav');
   if (!nav) return;

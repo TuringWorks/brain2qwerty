@@ -13,9 +13,6 @@ LICENSE file in the root directory of this source tree.
   <title>Brain2Qwerty — Decoding typed sentences from non-invasive brain activity</title>
   <meta name="description" content="A non-invasive brain-computer interface that decodes typed sentences from magnetoencephalography (MEG). Work by Meta AI in collaboration with BCBL." />
   <link rel="stylesheet" href="./src/demo-v2.css?v=28" />
-  <!-- Video hero: no WebGL / Three.js. The 3D scene is pre-rendered to two
-       clips (assets/hero-video/) baked by tools/capture-hero.mjs; src/hero-video.js
-       scrubs the zoom clip on scroll and loops the activation clip. -->
 </head>
 <body data-hero-start="brain">
 
@@ -33,10 +30,7 @@ LICENSE file in the root directory of this source tree.
     </div>
   </header>
 
-  <!-- ===================== HERO (scroll-scrubbed 3D) =====================
-       Minimal hero: title + subtitle pinned over the two-state 3D zoom
-       (MEG-first here), with the prediction GIF and the cortical-activity timer
-       on the brain close-up. All narrative prose lives in the article below. -->
+  <!-- ===================== HERO ===================== -->
   <section class="hero" id="top">
     <div class="hero-sticky">
       <div id="hero-stage" class="hero-stage">
@@ -63,15 +57,9 @@ LICENSE file in the root directory of this source tree.
   <section id="problem" class="section" data-reveal>
     <div class="wrap">
       <p class="eyebrow eyebrow--spaced">The Challenge</p>
-      <!-- <h2>When the brain can no longer reach the world</h2> -->
       <p>Every year, thousands of people lose the ability to speak after a stroke, an accident, or a brain disorder. While communication can be restored with <a href="https://www.nature.com/articles/s41586-023-06377-x" target="_blank" rel="noopener">brain implants</a> on the motor cortex, such <a href="https://www.nature.com/articles/s41583-024-00819-9" target="_blank" rel="noopener">neuroprostheses</a> require open-brain surgery.</p>
       <p>Today, we introduce <strong>Brain2Qwerty v2</strong>: a model to decode natural sentences from non-invasive magnetoencephalography (MEG) recordings.</p>
     </div>
-
-    <!-- <figure class="diagram" data-slot="pipeline"> -->
-      <!-- <img src="./assets/images/brain2qwerty_simple.svg" alt="Brain2Qwerty schematic: brain activity recorded with MEG or EEG feeds an AI decoder that outputs the QWERTY keys being typed" /> -->
-      <!-- <figcaption>Brain2Qwerty in one picture: brain activity &rarr; an AI decoder &rarr; the sentence being typed.</figcaption> -->
-    <!-- </figure> -->
   </section>
 
   <!-- ===================== ARCHITECTURE ===================== -->
@@ -79,7 +67,6 @@ LICENSE file in the root directory of this source tree.
     <div class="wrap">
       <p class="eyebrow">Architecture</p>
 
-      <!-- <h2>How the model reads the brain</h2> -->
       <p>For this, we built off the Brain2Qwerty v1 architecture released <a href="https://ai.meta.com/blog/brain-ai-research-human-communication/" target="_blank" rel="noopener">last year</a> and recently accepted at <a href="https://www.nature.com/articles/s41593-026-02303-2" data-link="paper-v1" target="_blank" rel="noopener"><em>Nature Neuroscience</em></a>. Brain2Qwerty v1 consisted of predicting keystrokes from MEG brain activity patterns recorded at <a href="https://www.bcbl.eu/en" target="_blank" rel="noopener">BCBL</a>, but could not work in real time because it needed the timing of every keypress.</p>
 
       <p>Brain2Qwerty v2 overcomes this limit and generates the sentences directly from a continuous recording of brain activity.
@@ -89,7 +76,6 @@ LICENSE file in the root directory of this source tree.
       <figure class="diagram diagram-arch">
         <img class="anim-on-view" data-anim-src="./assets/images/arch_simple.gif?v=4" alt="MEG signal feeds a Conformer (character detection), then an Aligner (word embeddings), then an LLM that reconstructs the sentence: the robot moves very fast." />
         <noscript><img src="./assets/images/arch_simple.gif?v=4" alt="MEG signal to Conformer to Aligner to LLM to predicted sentence." /></noscript>
-        <!-- <figcaption>The <strong>Conformer</strong> detects characters, the <strong>Aligner</strong> groups them into word embeddings, and the <strong>language model</strong> reconstructs the final <strong>sentence</strong>.</figcaption> -->
       </figure>
 
 
@@ -100,27 +86,8 @@ LICENSE file in the root directory of this source tree.
   <section id="performance" class="section" data-reveal>
     <div class="wrap">
       <p class="eyebrow">Performance</p>
-      <!-- <h2>From a first proof to something usable</h2> -->
       <p>Trained on <strong>10&times; more data</strong> per participant, Brain2Qwerty v2 can decode complete and meaningful sentences solely from MEG signals of healthy volunteers, and reaches up to <strong>78% word accuracy</strong> for the best participant.</p>
 
-      <!-- <div class="figures">
-        <div class="figure">
-          <div class="figure-num">32<span>%</span></div>
-          <div class="figure-label">average character error rate with MEG (v1)</div>
-        </div>
-        <div class="figure">
-          <div class="figure-num">19<span>%</span></div>
-          <div class="figure-label">best participant — whole sentences decoded verbatim</div>
-        </div>
-        <div class="figure">
-          <div class="figure-num">2<span>×</span></div>
-          <div class="figure-label">better than scalp EEG (67% error)</div>
-        </div>
-      </div> -->
-
-      <!-- Combined v1/v2 visual: three charts (training | character accuracy |
-           word accuracy). The accuracy charts stack mean + best participant per
-           model. v1 = grays, v2 = blues throughout. -->
       <figure class="combo">
 
         <div class="combo-cell combo-c chart">
@@ -170,7 +137,6 @@ LICENSE file in the root directory of this source tree.
     </div>
 
     <figure class="diagram">
-      <!-- Interactive: per sentence, the three best subjects (highest accuracy). -->
       <div id="results-explorer"></div>
     </figure>
   </section>

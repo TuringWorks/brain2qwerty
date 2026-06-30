@@ -653,7 +653,7 @@ body.showcase .hero-meg-tag strong {
 .hero-time {
   left: 50%; right: auto; transform: translateX(-50%);
   /* Centred in the LEFT half of the column, directly under the panned brain
-     (matches the column/4 screen shift composeBrain() applies in hero-v2.js).
+     (matches the column/4 screen shift applied to the brain frame).
      Raised toward the brain so the readout sits just beneath the cortex. */
   margin-left: calc(-1 * min(var(--wrap), 100vw - 2 * var(--pad)) / 4);
   top: 63%; bottom: auto; width: min(230px, 46vw); text-align: center;
@@ -665,13 +665,13 @@ body.showcase .hero-meg-tag strong {
 .hero-time-val { font-size: 12px; letter-spacing: 0.06em; }
 .hero-time-rel { display: block; }
 /* Draggable scrubber: the track (and a taller invisible hit zone) drives the
-   cortical-activity frame; wired in hero-v2.js. */
+   cortical-activity frame. */
 .hero-time-track { margin: 8px 0 0; pointer-events: auto; cursor: ew-resize; }
 .hero-time-track::after { content: ""; position: absolute; left: 0; right: 0; top: -11px; bottom: -11px; }
 .hero-time-marker { cursor: ew-resize; }
 
 /* "Motor cortex" callout on the zoomed cortex: a dot pinned to the peak-
-   activation vertex (projected from 3D by hero-v2.js) and a short leader up
+   activation vertex (projected from 3D) and a short leader up
    into the gap between the brain and the GIF, ending in the label. */
 .cortex-annot {
   position: absolute; left: 0; top: 0; z-index: 6;
@@ -718,7 +718,7 @@ body.showcase .hero-meg-tag strong {
   transition: opacity 0.5s ease, transform 0.5s ease;
   will-change: left, top, opacity, transform;
 }
-/* Staggered slide-in (delays set per callout in hero-v2.js): each arrives just
+/* Staggered slide-in (delays set per callout): each arrives just
    after the previous, drifting slightly to the right into place. */
 .scene-callout.is-in { opacity: 1; transform: translateX(0); }
 .scene-callout .sc-dot {
@@ -744,7 +744,7 @@ body.showcase .hero-meg-tag strong {
 .scene-callout.dir-right .sc-label { left: 62px; top: -8px; }
 
 /* "Next" guide button: a clear dark pill, bottom-centre, that advances one beat
-   per click (wired in hero-v2.js). */
+   per click. */
 .scroll-hint {
   flex-direction: row; gap: 9px; align-items: center; bottom: 30px;
   background: #1c2b33; color: #fff; border: 0; border-radius: 999px;
